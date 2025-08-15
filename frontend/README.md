@@ -21,3 +21,6 @@ flex-grow
 and
   <button className="md:hidden">
 difference 
+
+## 4
+<p class="tracking-tighter">This text has tighter letter spacing</p>
