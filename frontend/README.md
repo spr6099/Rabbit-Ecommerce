@@ -1,7 +1,14 @@
+
+2.59.41-react-router-dom v7
+
+
+
 ## google fonts
 https://fonts.google.com/specimen/Inter
 
 
+## sonner
+npm install sonner
 
 
 tailwind
@@ -24,3 +31,20 @@ difference
 
 ## 4
 <p class="tracking-tighter">This text has tighter letter spacing</p>
+
+## 5
+<div className="flex flex-col md:flex-row"> 
+1. flex → Makes the <div> a flex container.
+
+      Children will be laid out using CSS flexbox rules.
+
+2.flex-col → On small screens (default), the flex direction is column.
+
+        Items stack vertically (one on top of another).
+
+3.md:flex-row → On medium screens and up (md breakpoint is usually ≥768px), the flex      direction switches to row.
+
+        Items are placed horizontally (side by side).
+
+
+  
