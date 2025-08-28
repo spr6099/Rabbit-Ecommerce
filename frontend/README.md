@@ -2,6 +2,16 @@
 2.59.41-react-router-dom v7
 
 
+₹
+## paypal
+-------------
+https://www.npmjs.com/package/@paypal/react-paypal-js
+npm install @paypal/react-paypal-js
+
+
+## payPal
+--------
+password: iuiuhhggfd#@$%
 
 ## google fonts
 https://fonts.google.com/specimen/Inter

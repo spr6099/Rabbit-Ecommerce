@@ -27,10 +27,10 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex space-x-6">
           <Link
-            to="#"
+            to="/collections/all"
             className="text-gray-700 hover:text-black text-sm font-medium uppercase"
           >
-            men
+            Men
           </Link>
           <Link
             to="#"
@@ -53,6 +53,7 @@ const Navbar = () => {
         </div>
         {/* Right icons */}
         <div className="flex items-center space-x-4">
+          <Link to="/admin" className="block bg-black rounded text-white px-2 text-sm">Admin</Link>
           <Link to="/profile" className=" hover:text-black">
             <HiOutlineUser />
           </Link>
@@ -117,7 +118,6 @@ const Navbar = () => {
             >
               Bottom Wear
             </Link>
-            
           </nav>
         </div>
       </div>
