@@ -1,4 +1,15 @@
 
+Redux toolkit
+---------------
+createSlice -- > to write reducers and actions
+createAsuncThunk --> for asyncronous API calls
+
+
+
+
+
+
+
 2.59.41-react-router-dom v7
 
 

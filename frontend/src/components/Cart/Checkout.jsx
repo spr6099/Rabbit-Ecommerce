@@ -1,30 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PayPalButton from "./PayPalButton";
+import { useDispatch, useSelector } from "react-redux";
+import { createCheckout } from "../../redux/slices/checkoutSlice";
 
-const cart = {
-  products: [
-    {
-      name: "Stylish Jacket",
-      size: "M",
-      color: "Black",
-      price: 120,
-      image: "https://picsum.photos/150?random=1",
-    },
-    {
-      name: "Casual Sneakers",
-      size: "42",
-      color: "White",
-      price: 75,
-      image: "https://picsum.photos/150?random=2",
-    },
-  ],
-  totalPrice: 195,
-};
+// const cart = {
+//   products: [
+//     {
+//       name: "Stylish Jacket",
+//       size: "M",
+//       color: "Black",
+//       price: 120,
+//       image: "https://picsum.photos/150?random=1",
+//     },
+//     {
+//       name: "Casual Sneakers",
+//       size: "42",
+//       color: "White",
+//       price: 75,
+//       image: "https://picsum.photos/150?random=2",
+//     },
+//   ],
+//   totalPrice: 195,
+// };
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const [checkoutId, setcheckoutId] = useState(null);
+  const dispatch = useDispatch();
+
+  const { cart, loading, error } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
+
+  const [checkoutId, setCheckoutId] = useState(null);
   const [shippingAddress, setShippingAddress] = useState({
     firstName: "",
     lastName: "",
@@ -35,15 +42,82 @@ const Checkout = () => {
     phone: "",
   });
 
+  // Ensure cart is loaded before proceeding
+  useEffect(() => {
+    if (!cart || !cart.products || !cart.products.length === 0) {
+      navigate("/");
+    }
+  }, [cart, navigate]);
+
   const handleCreateCheckout = (e) => {
     e.preventDefault();
-    setcheckoutId(123);
+
+    if (cart && cart.products.length > 0) {
+      const res = dispatch(
+        createCheckout({
+          checkoutItems: cart.products,
+          shippingAddress,
+          paymentMethod: "Paypal",
+          totalPrice: cart.totalPrice,
+        })
+      );
+
+      if (res.payload && res.payload.id) {
+        setCheckoutId(res.payload.id); // Set checkout ID if chekout was successful
+      }
+    }
   };
 
-  const handlePaymentSuccess = (details) => {
-    console.log("paypal", details);
-    navigate("/order-confirmation");
+  const handlePaymentSuccess = async (details) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/pay`,
+        { paymentStatus: "paid", paymentDetails: details },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        await handleFinalizeCheckout(checkoutId);
+      } else {
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const handleFinalizeCheckout = async (checkoutId) => {
+    try {
+      const response = await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/checkout/${checkoutId}/finalize`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        navigate("/order-confirmation");
+      } else {
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (loading) return <p>Loading cart ...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!cart || !cart.products || cart.products.length === 0) {
+    return <p>Your cart is empty</p>;
+  }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-12 tracking-tighter">
       {/* Left Section */}
@@ -209,7 +283,7 @@ const Checkout = () => {
                   <p className="text-gray-500">{product.color}</p>
                 </div>
               </div>
-              <p className="text-xl">₹{product.price?.toLocaleString()}</p>
+              <p className="text-xl">${product.price?.toLocaleString()}</p>
             </div>
           ))}
         </div>
