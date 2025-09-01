@@ -11,7 +11,7 @@ export const fetchUsers = createAsyncThunk("admin/fetchUsers", async () => {
       },
     }
   );
-  response.data;
+  return response.data;
 });
 
 // Add the create user action
@@ -53,7 +53,7 @@ export const updateUser = createAsyncThunk(
         },
       }
     );
-    response;
+    return response.data.user;
   }
 );
 
@@ -117,6 +117,5 @@ const adminSlice = createSlice({
       });
   },
 });
-
 
 export default adminSlice.reducer;

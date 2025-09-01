@@ -16,13 +16,15 @@ createAsuncThunk --> for asyncronous API calls
 ₹
 ## paypal
 -------------
+https://developer.paypal.com/dashboard/applications/sandbox
 https://www.npmjs.com/package/@paypal/react-paypal-js
 npm install @paypal/react-paypal-js
 
 
 ## payPal
 --------
-password: iuiuhhggfd#@$%
+password: uiyuhjhhgvhvg54
+Fb*<x^2e
 
 ## google fonts
 https://fonts.google.com/specimen/Inter

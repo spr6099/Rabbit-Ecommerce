@@ -49,11 +49,10 @@ const Checkout = () => {
     }
   }, [cart, navigate]);
 
-  const handleCreateCheckout = (e) => {
+  const handleCreateCheckout = async (e) => {
     e.preventDefault();
-
     if (cart && cart.products.length > 0) {
-      const res = dispatch(
+      const res = await dispatch(
         createCheckout({
           checkoutItems: cart.products,
           shippingAddress,
@@ -62,16 +61,18 @@ const Checkout = () => {
         })
       );
 
-      if (res.payload && res.payload.id) {
-        setCheckoutId(res.payload.id); // Set checkout ID if chekout was successful
+      if (res.payload && res.payload._id) {
+        setCheckoutId(res.payload._id); // Set checkout ID if chekout was successful
       }
     }
   };
 
   const handlePaymentSuccess = async (details) => {
+    console.log("details", details);
+
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/pay`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
         { paymentStatus: "paid", paymentDetails: details },
         {
           headers: {
@@ -79,11 +80,7 @@ const Checkout = () => {
           },
         }
       );
-      if (response.status === 200) {
-        await handleFinalizeCheckout(checkoutId);
-      } else {
-        console.error(error);
-      }
+      await handleFinalizeCheckout(checkoutId);
     } catch (error) {
       console.error(error);
     }
@@ -102,11 +99,7 @@ const Checkout = () => {
           },
         }
       );
-      if (response.status === 200) {
-        navigate("/order-confirmation");
-      } else {
-        console.error(error);
-      }
+      navigate("/order-confirmation");
     } catch (error) {
       console.error(error);
     }
@@ -129,7 +122,7 @@ const Checkout = () => {
             <label className="block text-gray-700">Email</label>
             <input
               type="email"
-              value="user@example.com"
+              value={user ? user.email : ""}
               className="w-full p-2  rounded"
               disabled
             />
@@ -256,7 +249,7 @@ const Checkout = () => {
               <div>
                 <h3 className="text-lg mb-4">Pay with Paypal</h3>
                 <PayPalButton
-                  amount={100}
+                  amount={cart.totalPrice}
                   onSuccess={handlePaymentSuccess}
                   onError={(err) => alert("payment failed. Try again")}
                 />

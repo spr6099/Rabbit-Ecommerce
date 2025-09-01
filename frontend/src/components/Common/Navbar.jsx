@@ -11,7 +11,7 @@ const Navbar = () => {
   const [drawerOpen, setdrawerOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
   const { cart } = useSelector((state) => state.cart);
-
+  const { user } = useSelector((state) => state.auth);
   const cartItemCount =
     cart?.products?.reduce((total, product) => total + product.quantity, 0) ||
     0;
@@ -59,12 +59,15 @@ const Navbar = () => {
         </div>
         {/* Right icons */}
         <div className="flex items-center space-x-4">
-          <Link
-            to="/admin"
-            className="block bg-black rounded text-white px-2 text-sm"
-          >
-            Admin
-          </Link>
+          {user && user.role === "admin" && (
+            <Link
+              to="/admin"
+              className="block bg-black rounded text-white px-2 text-sm"
+            >
+              Admin
+            </Link>
+          )}
+
           <Link to="/profile" className=" hover:text-black">
             <HiOutlineUser />
           </Link>
