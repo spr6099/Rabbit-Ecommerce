@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PayPalButton from "./PayPalButton";
 import { useDispatch, useSelector } from "react-redux";
 import { createCheckout } from "../../redux/slices/checkoutSlice";
+import axios from "axios";
 
 // const cart = {
 //   products: [
