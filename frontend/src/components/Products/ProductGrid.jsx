@@ -14,13 +14,18 @@ const ProductGrid = ({ products, loading, error }) => {
       {products.map((product, index) => (
         <Link key={index} to={`/product/${product._id} `} className="block">
           <div className="bg-white p-4 rounded-lg">
-            <div className="w-full h-76 mb-4">
-              <img
-                src={product.images[0].url}
-                alt={product.images[0].altText || product.name}
-                className="w-full h-full object-cover rounded-lg"
-              />
+            <div className="w-full h-76 mb-4 flex items-center justify-center bg-gray-100 rounded-lg">
+              {product.images && product.images[0]?.url ? (
+                <img
+                  src={product.images[0].url}
+                  alt={product.images[0].altText || product.name}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              ) : (
+                <span className="text-gray-500">Image not found</span>
+              )}
             </div>
+
             <h3 className="text-sm mb-2">{product.name}</h3>
             <p className="text-gray-500 font-medium text-sm tracking-tighter ">
               $ {product.price}
