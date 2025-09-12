@@ -29,14 +29,6 @@ const EditProduct = () => {
     material: "",
     gender: "",
     images: [],
-    // images: [
-    //   {
-    //     url: "https://picsum.photos/150?random=1",
-    //   },
-    //   {
-    //     url: "https://picsum.photos/150?random=2",
-    //   },
-    // ],
   });
 
   const [uploading, setUploading] = useState(false); // Image uploading state
@@ -83,6 +75,12 @@ const EditProduct = () => {
       console.error(error);
       setUploading(false);
     }
+  };
+  const handleDeleteImage = (index) => {
+    setProductData((prevData) => ({
+      ...prevData,
+      images: prevData.images.filter((_, i) => i !== index),
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -198,14 +196,24 @@ const EditProduct = () => {
           <label className="block font-semibold mb-2">Upload Image</label>
           <input type="file" onChange={handleImageUpload} />
           {uploading && <p>Uploading image..</p>}
-          <div className="flex gap-4 mt-4">
+          <div className="flex gap-4 mt-4 flex-wrap">
             {productData.images.map((image, index) => (
-              <div key={index}>
+              <div
+                key={index}
+                className="relative w-20 h-20 rounded-md shadow-md overflow-hidden"
+              >
                 <img
                   src={image.url}
                   alt={image.altText || "Product Image"}
-                  className="w-20 h-20 object-cover rounded-md shadow-md"
+                  className="w-full h-full object-cover"
                 />
+                <button
+                  type="button"
+                  onClick={() => handleDeleteImage(index)}
+                  className="absolute top-0 right-0 bg-red-600 text-white text-xs px-1 py-0.5 rounded-bl-md hover:bg-red-700"
+                >
+                  ✕
+                </button>
               </div>
             ))}
           </div>

@@ -254,6 +254,10 @@ const Checkout = () => {
                   onSuccess={handlePaymentSuccess}
                   onError={(err) => alert("payment failed. Try again")}
                 />
+                <p>
+                  ## Card details - (USA) card no : 4032030598179688 expiry:
+                  12/2029 csc : 413 zip code :32003
+                </p>
               </div>
             )}
           </div>
