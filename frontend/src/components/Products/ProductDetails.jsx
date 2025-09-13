@@ -9,54 +9,7 @@ import {
 import { addToCart } from "../../redux/slices/cartSlice";
 import { useParams } from "react-router-dom";
 
-// const selectedProduct = {
-//   name: "Stylish Jacket",
-//   price: 120,
-//   originalPrice: 150,
-//   description:
-//     "A stylish jacket made from high-quality materials, perfect for any occasion.",
-//   brand: "FashionBrand",
-//   material: "Leather",
-//   sizes: ["S", "M", "L", "XL"],
-//   colors: ["Black", "Brown", "Navy"],
-//   images: [
-//     {
-//       url: "https://picsum.photos/500/500?/random=1",
-//       altText: "Stylish Jacket Front View",
-//     },
-//     {
-//       url: "https://picsum.photos/500/500?/random=2",
-//       altText: "Stylish Jacket 2",
-//     },
-//   ],
-// };
 
-// const similarProducts = [
-//   {
-//     _id: 1,
-//     name: "Product 1",
-//     price: 100,
-//     images: [{ url: "https://picsum.photos/200/200?random=1" }],
-//   },
-//   {
-//     _id: 2,
-//     name: "Product 2",
-//     price: 100,
-//     images: [{ url: "https://picsum.photos/200/200?random=2" }],
-//   },
-//   {
-//     _id: 3,
-//     name: "Product ",
-//     price: 100,
-//     images: [{ url: "https://picsum.photos/200/200?random=3" }],
-//   },
-//   {
-//     _id: 4,
-//     name: "Product 4",
-//     price: 100,
-//     images: [{ url: "https://picsum.photos/200/200?random=4" }],
-//   },
-// ];
 
 const ProductDetails = ({ productId }) => {
   const { id } = useParams();
@@ -128,6 +81,8 @@ const ProductDetails = ({ productId }) => {
   if (error) {
     return <p>Error: {error}</p>;
   }
+
+  
   return (
     <div className="p-6">
       {selectedProduct && (
@@ -263,12 +218,12 @@ const ProductDetails = ({ productId }) => {
                 <table className="w-full text-left text-sm text-gray-600">
                   <tbody>
                     <tr>
-                      <td className="py-1">Brand</td>
-                      <td className="py-1">{selectedProduct.brand}</td>
+                      <td className="py-1 ">Brand</td>
+                      <td className="py-1 text-gray-900">{selectedProduct?.brand}</td>
                     </tr>
                     <tr>
                       <td className="py-1">Material</td>
-                      <td className="py-1">{selectedProduct.material}</td>
+                      <td className="py-1 text-gray-900">{selectedProduct?.material}</td>
                     </tr>
                   </tbody>
                 </table>
