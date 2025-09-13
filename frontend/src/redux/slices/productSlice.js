@@ -78,6 +78,23 @@ export const fetchSimilarProducts = createAsyncThunk(
   }
 );
 
+// Async thunk to add a new product
+export const addProduct = createAsyncThunk(
+  "products/addProduct",
+  async (productData) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/products`,
+      productData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      }
+    );
+    return response.data;
+  }
+);
+
 const productsSlice = createSlice({
   name: "products",
   initialState: {
@@ -182,6 +199,21 @@ const productsSlice = createSlice({
         state.similarProducts = action.payload;
       })
       .addCase(fetchSimilarProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // handle adding new product
+
+      .addCase(addProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products.push(action.payload); // add new product to products array
+      })
+      .addCase(addProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

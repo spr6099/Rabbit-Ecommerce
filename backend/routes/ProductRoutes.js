@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post("/", protect, admin, async (req, res) => {
   try {
+    // console.log(req.body);
+
     const {
       name,
       description,
@@ -52,6 +54,7 @@ router.post("/", protect, admin, async (req, res) => {
     });
 
     const createdProduct = await product.save();
+    
     res.status(201).json(createdProduct);
   } catch (error) {
     console.log(error);

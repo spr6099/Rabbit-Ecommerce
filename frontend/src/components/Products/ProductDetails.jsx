@@ -9,8 +9,6 @@ import {
 import { addToCart } from "../../redux/slices/cartSlice";
 import { useParams } from "react-router-dom";
 
-
-
 const ProductDetails = ({ productId }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -82,7 +80,8 @@ const ProductDetails = ({ productId }) => {
     return <p>Error: {error}</p>;
   }
 
-  
+  console.log(selectedProduct);
+
   return (
     <div className="p-6">
       {selectedProduct && (
@@ -219,11 +218,15 @@ const ProductDetails = ({ productId }) => {
                   <tbody>
                     <tr>
                       <td className="py-1 ">Brand</td>
-                      <td className="py-1 text-gray-900">{selectedProduct?.brand}</td>
+                      <td className="py-1 text-gray-900">
+                        {selectedProduct?.brand}
+                      </td>
                     </tr>
                     <tr>
                       <td className="py-1">Material</td>
-                      <td className="py-1 text-gray-900">{selectedProduct?.material}</td>
+                      <td className="py-1 text-gray-900">
+                        {selectedProduct?.material}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
